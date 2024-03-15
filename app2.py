@@ -1,15 +1,15 @@
-from deepface import DeepFace
+import pyttsx3
 
+def text_to_speech(text):
+    # Initialize the text-to-speech engine
+ 
 
-import cv2
+    # Convert the text to speech
+    engine.say(text)
 
-cap = cv2.VideoCapture(0)
+    # Wait for the speech to finish
+    engine.runAndWait()
 
-while(cap.isOpened()):
-    success, frame = cap.read()
-    if not success:
-        continue
-    
-    dfs = DeepFace.find(img_path=frame, db_path=r"C:\Users\gratu\Projects\Gesture_Based_Authentication\facedatabase")
-    print(dfs)
-    cv2.imshow('frame',frame)
+# Example usage
+text = "Hello, how are you?"
+text_to_speech(text)

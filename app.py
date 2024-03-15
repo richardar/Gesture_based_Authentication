@@ -1,29 +1,51 @@
-import mediapipe as mp
 import cv2
+from ultralytics import YOLO
+from retinaface import RetinaFace
+from facerecognition import  recognize
+import pyttsx3
 
-mp_drawing = mp.solutions.drawing_utils
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands()
+cap = cv2.VideoCapture(0)
+model = YOLO('yolov8n.pt')
 
-cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)  # Open webcam
+#initialize text to speech    
+speech_engine = pyttsx3.init()
+
+
 while cap.isOpened():
-    success, image = cap.read()
-    if not success:
-        break
 
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    suc,frame = cap.read()
 
-    results = hands.process(image_rgb)
+    if not suc:
+        print("failed to read frame")
+        continue
+    else:
+        persons = model.predict(frame,classes =[0],show=False,verbose=False)
+        print(persons[0].boxes.xyxy)
 
-    image_with_landmarks = image.copy()
-    if results.multi_hand_landmarks:
-        for hand_landmarks in results.multi_hand_landmarks:
-            mp_drawing.draw_landmarks(
-                image_with_landmarks, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+        if len(persons[0].boxes.xyxy) >=2:
+            print("cannnot have more than one person on the frame ")
 
-    cv2.imshow('MediaPipe Hand Landmarks', image_with_landmarks)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+        elif len(persons[0].boxes.xyxy) == 1:
+            speech_engine.say("person detected, moving on with face recognition")
+            print("person detected, moving on with face recognition")
+            personxmin,personymin,personxmax,personymax = map(int,persons[0].boxes.xyxy[0])
+            croppedperson = frame.copy()
+            croppedperson = croppedperson[personymin:personymax,personxmin:personxmax]
+            cv2.imshow('frame',croppedperson)
 
-cap.release()
-cv2.destroyAllWindows()
+             
+            fr = recognize("/home/gratus/projects/Gesture_based_Authentication/facedatabase")
+
+            if not fr:
+                speech_engine.say("failed to recognize your face, you are not authorized")
+                print("failed to recognize your face, you re not authorized")
+            else:
+                print('successfully recognized your face {}'.format(fr))
+                speech_engine.say("successfully recognized. Welcome {} now let's move on to finger position ".format(fr))
+        else:
+            continue
+                
+
+    
+
+        
