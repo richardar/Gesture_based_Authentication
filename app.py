@@ -24,6 +24,7 @@ while cap.isOpened():
 
         if len(persons[0].boxes.xyxy) >=2:
             print("cannnot have more than one person on the frame ")
+        
 
         elif len(persons[0].boxes.xyxy) == 1:
             speech_engine.say("person detected, moving on with face recognition")
@@ -34,14 +35,22 @@ while cap.isOpened():
             cv2.imshow('frame',croppedperson)
 
              
-            fr = recognize("/home/gratus/projects/Gesture_based_Authentication/facedatabase")
+            fr = recognize("/home/gratus/projects/Gesture_based_Authentication/facedatabase",croppedperson)
+            print(fr)
 
             if not fr:
                 speech_engine.say("failed to recognize your face, you are not authorized")
                 print("failed to recognize your face, you re not authorized")
+            elif fr == 2:
+                print("show your complete face to recognizer for it to work properly")
+
+
             else:
                 print('successfully recognized your face {}'.format(fr))
-                speech_engine.say("successfully recognized. Welcome {} now let's move on to finger position ".format(fr))
+                speech_engine.say("successfully recognized. Welcome {} now let's move on to showing gestures ".format(fr))
+
+
+                
         else:
             continue
                 
