@@ -6,10 +6,11 @@ import os
 
 def recognize(database,imagetofind):
     images = os.listdir(database)
+    
     try:
 
         for image in images:
-            result = DeepFace.verify(imagetofind,os.path.join(database,image))
+            result = DeepFace.verify(imagetofind,os.path.join(database,image),enforce_detection=False)
             if result['verified'] == True :
 
                 if image.endswith('.jpeg'):
