@@ -6,10 +6,12 @@ import pyttsx3
 import os
 cap = cv2.VideoCapture(0)
 model = YOLO('yolov8n.pt')
+import os
 
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 #initialize text to speech    
 speech_engine = pyttsx3.init()
-
+speech_engine.setProperty('rate',150)
 
 while cap.isOpened():
 
@@ -45,14 +47,14 @@ while cap.isOpened():
             if not fr:
                 speech_engine.say("failed to recognize your face, you are not authorized")
                 speech_engine.runAndWait()
-                print("failed to recognize your face, you re not authorized")
+                print("failed to recognize your face, you re probably not authorized, trying again")
             elif fr == 2:
                 print("show your complete face to recognizer for it to work properly")
 
 
             else:
                 print('successfully recognized your face {}'.format(fr))
-                speech_engine.say("successfully recognized. Welcome {} now let's move on to showing gestures ".format(fr))
+                speech_engine.say("successfully recognized. Welcome  {} ,  now let's move on to showing gestures ".format(fr))
                 speech_engine.runAndWait()
 
 

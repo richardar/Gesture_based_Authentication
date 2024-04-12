@@ -5,22 +5,23 @@ import os
 
 
 def recognize(database,imagetofind):
-    images = os.listdir(database)
+    folders = os.listdir(database)
     
     try:
 
-        for image in images:
-            result = DeepFace.verify(imagetofind,os.path.join(database,image),enforce_detection=False)
-            if result['verified'] == True :
-
-                if image.endswith('.jpeg'):
-                    return image[:-5]
-                elif image.endswith('.jpg'):
-                    return image[:-4]
-                elif image.endswith('.png'):
-                    return image[:-4]
+        for folder in folders:
+            possibleimages=os.listdir(os.path.join(database,folder))
+            imagelist=[]
+            for possibleimage in possibleimages:
+                if possibleimage.endswith('.jpeg') or possibleimage.endswith('.png') or possibleimage.endswith('.jpg'):
+                    imagelist.append(possibleimage)
                 else:
-                    return image
+                    continue
+            for image in imagelist:
+                result = DeepFace.verify(imagetofind,os.path.join(database,folder,image),)
+                if result['verified'] == True :
+
+                    return folder
                 
 
 
