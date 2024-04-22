@@ -1,15 +1,15 @@
-import pyttsx3
+import mediapipe as mp
 
-def text_to_speech(text):
-    # Initialize the text-to-speech engine
- 
+BaseOptions = mp.tasks.BaseOptions
+GestureRecognizer = mp.tasks.vision.GestureRecognizer
+GestureRecognizerOptions = mp.tasks.vision.GestureRecognizerOptions
+VisionRunningMode = mp.tasks.vision.RunningMode
 
-    # Convert the text to speech
-    engine.say(text)
-
-    # Wait for the speech to finish
-    engine.runAndWait()
-
-# Example usage
-text = "Hello, how are you?"
-text_to_speech(text)
+# Create a gesture recognizer instance with the video mode:
+options = GestureRecognizerOptions(
+    base_options=BaseOptions(model_asset_path='/path/to/model.task'),
+    running_mode=VisionRunningMode.VIDEO)
+with GestureRecognizer.create_from_options(options) as recognizer:
+  # The detector is initialized. Use it here.
+  # ...
+    
