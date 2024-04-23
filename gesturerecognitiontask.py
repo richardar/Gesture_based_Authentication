@@ -37,12 +37,12 @@ captured_gesture = []
 def Authentication_task():
     for i in range(10):
         
-        speech_engine.say("Now sir, show gesture number {} in 5, 4, 3, 2, 1".format(i))
+        speech_engine.say("Now sir, show gesture number {} in 5, 4, 3, 2, 1".format(i+1))
         speech_engine.runAndWait()
         captured_image=capture_image()
         gesture = gesturerecog(captured_image)
         
-        if gesture is not None:
+        if gesture is not None and gesture in Authentication_gesture:
             captured_gesture.append(gesture)
             if len(Authentication_gesture) == len(captured_gesture):
                 if Authentication_gesture == captured_gesture:

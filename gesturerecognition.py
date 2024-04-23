@@ -30,7 +30,7 @@ def gesturerecog(image):
         recognition_result = recognizer.recognize(mp_image)
         if recognition_result == [] :
             return None
-        if recognition_result.gestures[0][0].category_name == "None":
+        elif recognition_result.gestures[0][0].category_name == "None":
             return None
         print(recognition_result.gestures[0][0].category_name)
         return recognition_result.gestures[0][0].category_name

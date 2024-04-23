@@ -8,7 +8,7 @@ from gesturerecognition import gesturerecog
 from gesturerecognitiontask  import Authentication_task
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-
+gesture_history = []
 # Initialize YOLO model
 model = YOLO('yolov8n.pt')
 
@@ -54,7 +54,7 @@ while cap.isOpened():
             speech_engine.runAndWait()
             authenticatontask=Authentication_task()
             if authenticatontask:
-                speech_engine.say("you have been authenticatd successfully, you can go in now")
+                speech_engine.say("you have been authenticated successfully, you can go in now")
                 speech_engine.runAndWait()
                 break
             else:
