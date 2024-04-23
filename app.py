@@ -5,6 +5,7 @@ from facerecognition import recognize
 import pyttsx3
 import os
 from gesturerecognition import gesturerecog
+from gesturerecognitiontask  import Authentication_task
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
@@ -42,30 +43,23 @@ while cap.isOpened():
         fr = recognize("facedatabase", cropped_person)
 
         if not fr:
-            speech_engine.say("Failed to recognize your face, you are not authorized")
+            speech_engine.say("Failed to recognize your face, you are not authorized, trying again")
             speech_engine.runAndWait()
             print("Failed to recognize your face, you are not authorized, trying again")
         elif fr == 2:
             print("Show your complete face to recognizer for it to work properly")
         else:
             print("Successfully recognized your face {}".format(fr))
-            speech_engine.say("Successfully recognized. Welcome {}, now let's move on to showing gestures".format(fr))
+            speech_engine.say("Successfully recognized. Welcome, {} , now let's move on to showing gestures".format(fr))
             speech_engine.runAndWait()
-            # speech_engine.say("Now sir, show your first gesture in 5, 4, 3, 2, 1")
-            # speech_engine.runAndWait()
-
-            # # Perform gesture recognition
-            # gesture_cap = cv2.VideoCapture(0)
-            # while gesture_cap.isOpened():
-            #     ret, gesture = gesture_cap.read()
-            #     if ret:
-            #         cv2.imshow("Gesture", gesture)
-            #         gesturerecog(gesture)
-            #     # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     #     break
-
-            # gesture_cap.release()
-            
+            authenticatontask=Authentication_task()
+            if authenticatontask:
+                speech_engine.say("you have been authenticatd successfully, you can go in now")
+                speech_engine.runAndWait()
+                break
+            else:
+                speech_engine.say("Your whole authenticatioin process have been failed, trying from the beginning")
+                speech_engine.runAndWait()
     elif len(persons[0].boxes.xyxy) > 1:
         print("Cannot have more than one person on the frame")
     else:
