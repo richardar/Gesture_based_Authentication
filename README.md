@@ -1,8 +1,3 @@
-Here's a professional and comprehensive `README.md` file for your GitHub repository titled **Enhanced Gesture-Based Authentication**. This readme is structured to align with academic and engineering best practices while also being developer-friendly:
-
----
-
-
 # Enhanced Gesture-Based Authentication
 
 ![License](https://img.shields.io/badge/license-MIT-green)
