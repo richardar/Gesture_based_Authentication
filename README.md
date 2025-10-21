@@ -151,5 +151,4 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ---
 
-Would you like me to also generate the `requirements.txt` or create a basic folder structure with starter code (`main.py`, `src/`, etc.)?
 ```
